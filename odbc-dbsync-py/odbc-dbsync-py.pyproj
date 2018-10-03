@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>aee6896b-a736-4e9c-9f97-3aed781a3f02</ProjectGuid>
+    <ProjectGuid>b7d74794-e37f-4d59-a5c8-ab25b19d51a8</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>odbc_dbsync_py.py</StartupFile>
     <SearchPath>
@@ -23,6 +23,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="odbc_dbsync_py.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="db\" />
+    <Folder Include="sync\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
