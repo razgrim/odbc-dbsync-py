@@ -187,3 +187,115 @@ NameError: name 'tempJob' is not defined
 NameError: name 'tempJob' is not defined
 
 2018-10-04 11:32:21 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 12:24:43 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 12:24:43 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 63, in loadSyncjobs
+    if(tempSyncjob.testConnection()):
+TypeError: testConnection() takes 0 positional arguments but 1 was given
+
+2018-10-04 12:24:58 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 12:24:58 [ERROR]:	Failed to connect one or more databases for needles2needlesLocal.job, skipping.
+2018-10-04 12:29:21 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 12:29:21 [ERROR]:	Failed to connect one or more databases for needles2needlesLocal.job, skipping.
+2018-10-04 12:30:29 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 12:30:29 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 26, in connect
+    connection1=pyodbc.connect(connectionString1)
+NameError: name 'connectionString1' is not defined
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 18, in testConnection
+    self.connect()
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 28, in connect
+    Logger.writeAndPrintLine("Could not connect specified database.", 3)
+NameError: name 'Logger' is not defined
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 63, in loadSyncjobs
+    if(tempSyncjob.testConnection()):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 22, in testConnection
+    Logger.writeAndPrintLine("Test connection failed "+traceback.format_exc(),3)
+NameError: name 'Logger' is not defined
+
+2018-10-04 12:30:48 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 12:30:48 [ERROR]:	Could not connect specified database.
+2018-10-04 12:30:48 [ERROR]:	Test connection failed Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 20, in testConnection
+    self.disconnect()
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 34, in disconnect
+    connection1.close()
+NameError: name 'connection1' is not defined
+
+2018-10-04 12:30:48 [ERROR]:	Failed to connect one or more databases for needles2needlesLocal.job, skipping.
+2018-10-04 12:30:58 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 12:30:58 [ERROR]:	Could not connect specified database.
+2018-10-04 12:30:58 [ERROR]:	Test connection failed Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 20, in testConnection
+    self.disconnect()
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 34, in disconnect
+    connection1.close()
+NameError: name 'connection1' is not defined
+
+2018-10-04 12:30:58 [ERROR]:	Failed to connect one or more databases for needles2needlesLocal.job, skipping.
+2018-10-04 12:31:26 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 12:31:26 [ERROR]:	Could not connect specified database.
+2018-10-04 12:31:26 [ERROR]:	Test connection failed Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 20, in testConnection
+    self.disconnect()
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 34, in disconnect
+    self.connection1.close()
+AttributeError: 'NoneType' object has no attribute 'close'
+
+2018-10-04 12:31:26 [ERROR]:	Failed to connect one or more databases for needles2needlesLocal.job, skipping.
+2018-10-04 12:32:06 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 12:32:06 [ERROR]:	Could not connect specified database. Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 27, in connect
+    self.connection1=pyodbc.connect(connectionString1)
+NameError: name 'connectionString1' is not defined
+
+2018-10-04 12:32:06 [ERROR]:	Test connection failed Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 20, in testConnection
+    self.disconnect()
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 34, in disconnect
+    self.connection1.close()
+AttributeError: 'NoneType' object has no attribute 'close'
+
+2018-10-04 12:32:06 [ERROR]:	Failed to connect one or more databases for needles2needlesLocal.job, skipping.
+2018-10-04 12:32:30 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 12:32:53 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 12:33:53 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 12:33:55 [ERROR]:	Could not connect specified database. dsn=needlesLocal: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 32, in connect
+    self.connection2=pyodbc.connect(self.connectionString2)
+pyodbc.OperationalError: ('08001', '[08001] [Sybase][ODBC Driver][SQL Anywhere]Database server not found (-100) (SQLDriverConnect)')
+
+2018-10-04 13:24:44 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 13:24:44 [ERROR]:	Could not connect specified database. dsn=needlesLocal: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 32, in connect
+    self.connection2=pyodbc.connect(self.connectionString2)
+pyodbc.OperationalError: ('08001', '[08001] [Sybase][ODBC Driver][SQL Anywhere]Database server not found (-100) (SQLDriverConnect)')
+
+2018-10-04 13:28:02 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 13:28:02 [ERROR]:	Could not connect specified database. dsn=needlesLocal: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 32, in connect
+    self.connection2=pyodbc.connect(self.connectionString2)
+pyodbc.OperationalError: ('08001', '[08001] [Sybase][ODBC Driver][SQL Anywhere]Database server not found (-100) (SQLDriverConnect)')
+
+2018-10-04 13:29:06 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 13:31:53 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 15:23:46 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 15:24:07 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 15:24:28 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 15:24:39 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 15:25:41 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 15:25:52 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 15:26:12 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 15:50:42 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 16:26:25 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 16:26:44 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 16:26:57 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 16:27:28 [SYSTEM]:	Configuration loaded successfully.

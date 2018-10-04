@@ -6,6 +6,7 @@ from syncObjs import syncjob
 from syncObjs import tablemap
 from syncObjs import table
 import traceback
+from threading import Thread
 
 class Loader(object):
 
@@ -19,6 +20,7 @@ class Loader(object):
     logDir = "log"
 
     syncjobs=[]
+    syncjobThreads=[]
 
     def __init__(self):
         self.config = configparser.ConfigParser()
@@ -36,6 +38,7 @@ class Loader(object):
         print("runOnce: "+str(self.runOnce))
         print("idle: "+str(self.idle))
         print("logDir: "+str(self.idle))
+        print("")
 
     def launch(self):
         print("Program started.")
@@ -46,6 +49,7 @@ class Loader(object):
         print("Launching VoicemailTranscriber with the following parameters! :")
         self.printConfig()
         self.loadSyncjobs()
+        self.launchSyncjobs()
 
     def loadSyncjobs(self):
         files = os.listdir("sync")
@@ -56,7 +60,11 @@ class Loader(object):
                 fileparser=configparser.ConfigParser()
                 print("loading "+file)
                 fileparser.read("sync\\"+file)
-                self.syncjobs.append(Loader.parseSyncjob(fileparser))
+                tempSyncjob=Loader.parseSyncjob(fileparser)
+                if(tempSyncjob.testConnection()):
+                    self.syncjobs.append(tempSyncjob)
+                else:
+                    Logger.writeAndPrintLine("Failed to connect one or more databases for "+file+", skipping.",3)   
             except Exception as e: 
                 Logger.writeAndPrintLine("Error parsing configuration for "+file+": "+traceback.format_exc(),3)   
                 continue
@@ -72,6 +80,7 @@ class Loader(object):
             tempTableMap=tablemap()
             tempTableMap.name=tableMapName
             tempTableMap.direction=fileparser[tableMapName]["direction"]
+            tempTableMap.syncInterval=int(fileparser[tableMapName]["direction"])
 
             tempTableMap.table1=table()
             tempTableMap.table1.tableName=fileparser[tableMapName]["table1Name"]
@@ -84,3 +93,10 @@ class Loader(object):
             tempjob.tableMaps.append(tempTableMap)
 
         return tempjob
+
+    def launchSyncjobs(self):
+        for job in self.syncjobs:
+            tempThread=Thread(target = job.run())
+            self.syncjobThreads.append(tempThread)
+            tempThread.start()
+
