@@ -15,6 +15,7 @@ class Logger(object):
         file.close()
         print(message)
 
+    @classmethod
     def writeAndPrintLine(self, text, errorLevel):
         message=Logger.getTimeStamp()+' '+Logger.getErrorString(errorLevel)+':\t'+text
         file=open(self.logFile, "a")
