@@ -27,7 +27,7 @@
     </Compile>
     <Compile Include="bin\dbsync.py" />
     <Compile Include="bin\Logger.py" />
-    <Compile Include="bin\syncjob.py">
+    <Compile Include="bin\syncObjs.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -38,7 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\dbsync.conf" />
-    <Content Include="sync\job1.txt" />
+    <Content Include="sync\needles2needlesLocal.job" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -24,3 +24,166 @@
 2018-10-04 09:32:50 [SYSTEM]:	Configuration loaded successfully.
 2018-10-04 09:35:14 [SYSTEM]:	Configuration loaded successfully.
 2018-10-04 09:35:48 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:18:03 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:18:26 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:18:26 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 55, in loadSyncjobs
+    syncJobs.append(parseSyncjob(fileparser))
+NameError: name 'syncJobs' is not defined
+
+2018-10-04 11:18:55 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:18:55 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 55, in loadSyncjobs
+    self.syncJobs.append(parseSyncjob(fileparser))
+AttributeError: 'Loader' object has no attribute 'syncJobs'
+
+2018-10-04 11:19:16 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:19:16 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 55, in loadSyncjobs
+    self.syncjobs.append(parseSyncjob(fileparser))
+NameError: name 'parseSyncjob' is not defined
+
+2018-10-04 11:19:27 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:19:27 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 55, in loadSyncjobs
+    self.syncjobs.append(self.parseSyncjob(fileparser))
+TypeError: parseSyncjob() takes 1 positional argument but 2 were given
+
+2018-10-04 11:20:01 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:20:01 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 55, in loadSyncjobs
+    self.syncjobs.append(parseSyncjob(fileparser))
+NameError: name 'parseSyncjob' is not defined
+
+2018-10-04 11:21:09 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:21:09 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 55, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 61, in parseSyncjob
+    tempjob=syncjob()
+TypeError: 'module' object is not callable
+
+2018-10-04 11:22:59 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:22:59 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 55, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 61, in parseSyncjob
+    tempjob=syncjob()
+NameError: name 'syncjob' is not defined
+
+2018-10-04 11:23:33 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:23:33 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 57, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 64, in parseSyncjob
+    tempjob.connectionString1=fileparser["SYNC"]["connectionString1"]
+  File "C:\Program Files\Python36\lib\configparser.py", line 959, in __getitem__
+    raise KeyError(key)
+KeyError: 'SYNC'
+
+2018-10-04 11:24:49 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:24:49 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 57, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 64, in parseSyncjob
+    tempjob.connectionString1=fileparser["SYNC"]["connectionString1"]
+  File "C:\Program Files\Python36\lib\configparser.py", line 959, in __getitem__
+    raise KeyError(key)
+KeyError: 'SYNC'
+
+2018-10-04 11:25:19 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:25:19 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 57, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 64, in parseSyncjob
+    tempjob.connectionString1=fileparser["SYNC"]["connectionString1"]
+  File "C:\Program Files\Python36\lib\configparser.py", line 959, in __getitem__
+    raise KeyError(key)
+KeyError: 'SYNC'
+
+2018-10-04 11:25:51 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:25:51 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 58, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 65, in parseSyncjob
+    tempjob.connectionString1=fileparser["SYNC"]["connectionString1"]
+  File "C:\Program Files\Python36\lib\configparser.py", line 959, in __getitem__
+    raise KeyError(key)
+KeyError: 'SYNC'
+
+2018-10-04 11:26:22 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:26:22 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 58, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 66, in parseSyncjob
+    tempjob.connectionString1=fileparser["SYNC"]["connectionString1"]
+  File "C:\Program Files\Python36\lib\configparser.py", line 959, in __getitem__
+    raise KeyError(key)
+KeyError: 'SYNC'
+
+2018-10-04 11:27:06 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:27:06 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 59, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 67, in parseSyncjob
+    tempjob.connectionString1=fileparser["SYNC"]["connectionString1"]
+  File "C:\Program Files\Python36\lib\configparser.py", line 959, in __getitem__
+    raise KeyError(key)
+KeyError: 'SYNC'
+
+2018-10-04 11:28:09 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:28:09 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 57, in loadSyncjobs
+    fileparser.read("sync\\"+file)
+  File "C:\Program Files\Python36\lib\configparser.py", line 697, in read
+    self._read(fp, filename)
+  File "C:\Program Files\Python36\lib\configparser.py", line 1111, in _read
+    raise e
+configparser.ParsingError: Source contains parsing errors: 'sync\\needles2needlesLocal.job'
+	[line  7]: 'cases\n'
+
+2018-10-04 11:30:07 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:30:07 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 59, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 70, in parseSyncjob
+    for tableMapName in fileparser.sections("tableMaps"):
+TypeError: sections() takes 1 positional argument but 2 were given
+
+2018-10-04 11:31:01 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:31:01 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 59, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 74, in parseSyncjob
+    tempTableMap.direction=fileparser["tableMapName"]["direction"]
+  File "C:\Program Files\Python36\lib\configparser.py", line 959, in __getitem__
+    raise KeyError(key)
+KeyError: 'tableMapName'
+
+2018-10-04 11:31:22 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:31:22 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 59, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 74, in parseSyncjob
+    tempTableMap.direction=fileparser["tableMapName"]["direction"]
+  File "C:\Program Files\Python36\lib\configparser.py", line 959, in __getitem__
+    raise KeyError(key)
+KeyError: 'tableMapName'
+
+2018-10-04 11:31:43 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:31:43 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 59, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 84, in parseSyncjob
+    tempJob.tableMaps.append(tempTableMap)
+NameError: name 'tempJob' is not defined
+
+2018-10-04 11:31:56 [SYSTEM]:	Configuration loaded successfully.
+2018-10-04 11:31:56 [ERROR]:	Error parsing configuration for needles2needlesLocal.job: Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 59, in loadSyncjobs
+    self.syncjobs.append(Loader.parseSyncjob(fileparser))
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\Loader.py", line 84, in parseSyncjob
+    tempJob.tableMaps.append(tempTableMap)
+NameError: name 'tempJob' is not defined
+
+2018-10-04 11:32:21 [SYSTEM]:	Configuration loaded successfully.

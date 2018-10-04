@@ -1,11 +1,7 @@
 [SYNC]
 #1 for 1->2, 2 for 2->1, 3 for 1<->2
-direction=1
 connectionString1=dsn=needles
 connectionString2=dsn=needlesLocal
-
-[tableMaps]
-cases
 
 [cases]
 direction=1

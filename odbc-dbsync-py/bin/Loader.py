@@ -2,6 +2,10 @@ import os
 import io
 import configparser
 from Logger import Logger
+from syncObjs import syncjob
+from syncObjs import tablemap
+from syncObjs import table
+import traceback
 
 class Loader(object):
 
@@ -13,6 +17,8 @@ class Loader(object):
     runOnce = False
     idle = 60
     logDir = "log"
+
+    syncjobs=[]
 
     def __init__(self):
         self.config = configparser.ConfigParser()
@@ -39,14 +45,42 @@ class Loader(object):
         Logger.writeAndPrintLine("Configuration loaded successfully.",0)
         print("Launching VoicemailTranscriber with the following parameters! :")
         self.printConfig()
-        self.loadSyncs()
+        self.loadSyncjobs()
 
-    def loadSyncs(self):
+    def loadSyncjobs(self):
         files = os.listdir("sync")
         for file in files:
-            fileparser=configparser.ConfigParser()
-            fileparser.read("sync\\"+file)
-            print(fileparser['SYNC']['direction'])
-            print(fileparser.options('SYNC'))
+            if(not file.endswith(".job")):
+                continue
+            try:
+                fileparser=configparser.ConfigParser()
+                print("loading "+file)
+                fileparser.read("sync\\"+file)
+                self.syncjobs.append(Loader.parseSyncjob(fileparser))
+            except Exception as e: 
+                Logger.writeAndPrintLine("Error parsing configuration for "+file+": "+traceback.format_exc(),3)   
+                continue
 
+    def parseSyncjob(fileparser):
+        tempjob=syncjob()
+        tempjob.connectionString1=fileparser["SYNC"]["connectionString1"]
+        tempjob.connectionString2=fileparser["SYNC"]["connectionString2"]
 
+        for tableMapName in fileparser.sections():
+            if(tableMapName=="SYNC"):
+                continue
+            tempTableMap=tablemap()
+            tempTableMap.name=tableMapName
+            tempTableMap.direction=fileparser[tableMapName]["direction"]
+
+            tempTableMap.table1=table()
+            tempTableMap.table1.tableName=fileparser[tableMapName]["table1Name"]
+            tempTableMap.table1.pkCol=fileparser[tableMapName]["table1pkCol"]
+            tempTableMap.table1.modTimeCol=fileparser[tableMapName]["table1modTimeCol"]
+            tempTableMap.table2=table()
+            tempTableMap.table2.tableName=fileparser[tableMapName]["table2Name"]
+            tempTableMap.table2.pkCol=fileparser[tableMapName]["table2pkCol"]
+            tempTableMap.table2.modTimeCol=fileparser[tableMapName]["table2modTimeCol"]
+            tempjob.tableMaps.append(tempTableMap)
+
+        return tempjob
