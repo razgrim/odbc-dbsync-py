@@ -76,6 +76,7 @@ class syncjob(object):
         columns = [column[0] for column in cursor1.description]
         columns = columns[2:]
 
+        Logger.writeAndPrintLine("started sync "+tablem.name+".",0)
         while True:
             if(not row1 and not row2):#reached the end, quit. 
                 break
@@ -109,13 +110,17 @@ class syncjob(object):
             ###update checking###
             else:
                 #rows not equal, but indexes are. the modifieds must be different. 
-                if(row1[1]>row2[1]):
-                    None #TODO update row2 with row1
+                if(not row2[1]):
+                    self.doUpdate(row1, tablem.table2,2,columns,self.connection2w)
+                elif((not row1[1]) and direction==2):
+                    self.doUpdate(row2, tablem.table1,1,columns,self.connection1w)
+                elif(row1[1]>row2[1]):
+                    self.doUpdate(row1, tablem.table2,2,columns,self.connection2w)
                 elif(tablem.direction==2): #row1 is older than row2 and 2 way sync
-                    None #TODO update row1 with row2
+                    self.doUpdate(row2, tablem.table1,1,columns,self.connection1w)
                 row1=cursor1.fetchone()
                 row2=cursor2.fetchone()
-
+        print("committing")
         self.connection1w.commit()
         self.connection2w.commit()
         Logger.writeAndPrintLine("sync "+tablem.name+" complete.",0)
@@ -139,9 +144,11 @@ class syncjob(object):
             if(not rowval):
                 query=query+"null,"
             else:
-                query=query+"'"+str(rowval)+"',"
+                query=query+"'"+str(rowval).replace("'","''")+"',"
         query=query.rstrip(',')+')'
-
+        print(query)
+        print("awaiting input.")
+        input()
         #execute
         tempcursor=writeconnection.cursor()
         try:
@@ -154,24 +161,19 @@ class syncjob(object):
     def doUpdate(self, sourcerow, targettable, dbnum, columns, writeconnection):
         id=sourcerow[0]
         sourcerow=sourcerow[2:]
-
-        #TODO update should do a pk lookup on table and update using WHERE, for compatibility. 
-
-        #insert statement
-        query="INSERT INTO "+targettable.tableName+"("
-        for columnName in columns:
-            query=query+'"'+columnName+'",'
-
-        #value statement
-        query=query.rstrip(',')+") ON EXISTING UPDATE VALUES ("
-        for rowval in sourcerow:
-            if(not rowval):
-                query=query+"null,"
-            else:
-                query=query+"'"+str(rowval)+"',"
-        query=query.rstrip(',')+')'
-
+        query="UPDATE "+targettable.tableName+" SET "
+        i=0
+        for column in columns:
+            if(column.upper() not in targettable.dontUpdate):
+                if(not sourcerow[i]):
+                    query=query+'"'+column+'"=null, '
+                else:
+                    query=query+'"'+column+'"='+"'"+str(sourcerow[i]).replace("'","''")+"', "
+            i+=1
+        query=query.rstrip(" ").rstrip(",")
+        query=query+" WHERE "+'"'+targettable.pkCol+'"'+"='"+str(id)+"'"
         #execute
+        print(query)
         tempcursor=writeconnection.cursor()
         try:
             tempcursor.execute(query)
