@@ -38,7 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\dbsync.conf" />
-    <Content Include="sync\needles2needlesLocal.job" />
+    <Content Include="sync\db1todb2.job" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
