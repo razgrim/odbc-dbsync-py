@@ -66,36 +66,48 @@ class syncjob(object):
         select1=self.buildSelectQuery(tablem.table1)
         select2=self.buildSelectQuery(tablem.table2)
         cursor1=self.connection1.cursor()
-        cursor2=self.connection1.cursor()
+        cursor2=self.connection2.cursor()
         cursor1.execute(select1)
         cursor2.execute(select2)
         
         row1=cursor1.fetchone()
         row2=cursor2.fetchone()
-        print(row1.casenum)
-        print(row1)
-        print(row2)
+
+        columns = [column[0] for column in cursor1.description]
+        columns = columns[2:]
+
         while True:
             if(not row1 and not row2):#reached the end, quit. 
+                print("sync "+tablem.name+" complete.")
                 break
-            if(row1[0]==row2[0] and row1[1]==row2[1]): #nothing to do here
+            if(row1 and row2 and row1[0]==row2[0] and row1[1]==row2[1]): #nothing to do here
                 row1=cursor1.fetchone()
                 row2=cursor2.fetchone()
 
-            #insert checking
+            ###insert checking###
+            #check for nulls
+            elif(not row1):
+                if(tablem.direction==1):
+                    break #if row1 is null we've reached the end of that table. we don't care about anything else in 1 way sync. 
+                else:
+                    self.doInsert(row2, tablem.table1,1,columns,self.connection1w) 
+                    row2=cursor2.fetchone()
+            elif(not row2): 
+                self.doInsert(row1, tablem.table2,2,columns,self.connection2w) 
+                row1=cursor1.fetchone()
+            
+            #check for missed indices
             elif(row1[0]>row2[0]):
                 if(tablem.direction==1):
-                    cursor2.fetchone() #1 way sync we don't care that table 1 is missing a row
+                    row2=cursor2.fetchone() #1 way sync we don't care that table 1 is missing a row
                 else:
-                    None #TODO insert row2 in table 1
-                    Logger.writeAndPrintLine("Inserting row "+row2[0]+" from table 2 to 1.", 1) 
-                    cursor2.fetchone()
-            elif(row1[0]<row2[0]): #row2 skipped over 1. table2 is missing row1. 
-                None #TODO insert row1 in table2, for both 1 and 2 way sync.
-                Logger.writeAndPrintLine("Inserting row "+row1[0]+" from table 1 to 2.", 1) 
-                cursor1.fetchone()
+                    self.doInsert(row2, tablem.table1,1,columns,self.connection1w)
+                    row2=cursor2.fetchone()
+            elif(row1[0]<row2[0]): 
+                self.doInsert(row1, tablem.table2,2,columns,self.connection2w)
+                row1=cursor1.fetchone()
 
-            #update checking 
+            ###update checking###
             else:
                 #rows not equal, but indexes are. the modifieds must be different. 
                 if(row1[1]>row2[1]):
@@ -105,12 +117,36 @@ class syncjob(object):
                 row1=cursor1.fetchone()
                 row2=cursor2.fetchone()
 
+        self.connection1w.commit()
+        self.connection2w.commit()
+
 
     def buildSelectQuery(self, temptable):
-        return "SELECT "+temptable.pkCol+","+temptable.modTimeCol+",* FROM "+temptable.tableName+" WHERE CASENUM='243441' ORDER BY "+temptable.pkCol+" ASC"
+        return "SELECT "+temptable.pkCol+","+temptable.modTimeCol+",* FROM "+temptable.tableName+" WHERE CASENUM>'273441' ORDER BY "+temptable.pkCol+" ASC"
 
-    def doInsert(self, sourcerow, targettable, writeconnection):
-        None
+    def doInsert(self, sourcerow, targettable, dbnum, columns, writeconnection):
+        id=sourcerow[0]
+        sourcerow=sourcerow[2:]
+        query="INSERT INTO "+targettable.tableName+"("
+        for columnName in columns:
+            query=query+'"'+columnName+'",'
+
+        query=query.rstrip(',')+") VALUES ("
+
+        for rowval in sourcerow:
+            if(not rowval):
+                query=query+"null,"
+            else:
+                query=query+"'"+str(rowval)+"',"
+
+        query=query.rstrip(',')+')'
+        tempcursor=writeconnection.cursor()
+        try:
+            tempcursor.execute(query)
+            print("Inserted row "+str(id)+" into db"+str(dbnum)+", "+targettable.tableName)
+        except Exception as e:  
+            Logger.writeAndPrintLine("Could not insert row. "+str(id)+" into db"+str(dbnum)+", "+traceback.format_exc(), 3)  
+        input()
 
 class tablemap(object):
     #1 for 1->2, 2 for 1<->2

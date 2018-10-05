@@ -311,3 +311,67 @@ pyodbc.OperationalError: ('08001', '[08001] [Sybase][ODBC Driver][SQL Anywhere]D
 2018-10-05 09:57:57 [SYSTEM]:	Configuration loaded successfully.
 2018-10-05 09:58:07 [SYSTEM]:	Configuration loaded successfully.
 2018-10-05 09:58:40 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:03:48 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:04:00 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:04:40 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:06:03 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:06:30 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:07:09 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:32:35 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:33:17 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:33:29 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:35:11 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:36:28 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:37:29 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:37:50 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:38:39 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:39:32 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:46:45 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:50:43 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:57:49 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:58:25 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 10:59:08 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 11:00:11 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 11:02:58 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 11:25:28 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 11:25:54 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 11:26:19 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 11:33:24 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 11:36:09 [ERROR]:	Could not connect specified database. dsn=needles: NoneType: None
+
+2018-10-05 11:36:56 [SYSTEM]:	Configuration loaded successfully.
+2018-10-05 11:37:00 [ERROR]:	Could not insert row. 273446 into db2, Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 145, in doInsert
+    tempcursor.execute(query)
+pyodbc.IntegrityError: ('23000', "[23000] [Sybase][ODBC Driver][SQL Anywhere]No primary key value for foreign key 'case_group' in table 'cases' (-194) (SQLExecDirectW)")
+
+2018-10-05 11:37:03 [ERROR]:	Could not insert row. 273447 into db2, Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 145, in doInsert
+    tempcursor.execute(query)
+pyodbc.IntegrityError: ('23000', "[23000] [Sybase][ODBC Driver][SQL Anywhere]No primary key value for foreign key 'case_refered_to' in table 'cases' (-194) (SQLExecDirectW)")
+
+2018-10-05 11:37:05 [ERROR]:	Could not insert row. 273449 into db2, Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 145, in doInsert
+    tempcursor.execute(query)
+pyodbc.IntegrityError: ('23000', "[23000] [Sybase][ODBC Driver][SQL Anywhere]No primary key value for foreign key 'case_refered_to' in table 'cases' (-194) (SQLExecDirectW)")
+
+2018-10-05 11:37:06 [ERROR]:	Could not insert row. 273450 into db2, Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 145, in doInsert
+    tempcursor.execute(query)
+pyodbc.IntegrityError: ('23000', "[23000] [Sybase][ODBC Driver][SQL Anywhere]No primary key value for foreign key 'case_refered_to' in table 'cases' (-194) (SQLExecDirectW)")
+
+2018-10-05 11:37:08 [ERROR]:	Could not insert row. 273454 into db2, Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 145, in doInsert
+    tempcursor.execute(query)
+pyodbc.IntegrityError: ('23000', "[23000] [Sybase][ODBC Driver][SQL Anywhere]No primary key value for foreign key 'case_group' in table 'cases' (-194) (SQLExecDirectW)")
+
+2018-10-05 11:37:09 [ERROR]:	Could not insert row. 273455 into db2, Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 145, in doInsert
+    tempcursor.execute(query)
+pyodbc.IntegrityError: ('23000', "[23000] [Sybase][ODBC Driver][SQL Anywhere]No primary key value for foreign key 'case_group' in table 'cases' (-194) (SQLExecDirectW)")
+
+2018-10-05 11:37:10 [ERROR]:	Could not insert row. 273458 into db2, Traceback (most recent call last):
+  File "C:\Users\treusch\Source\Repos\razgrim\odbc-dbsync-py\odbc-dbsync-py\bin\syncObjs.py", line 145, in doInsert
+    tempcursor.execute(query)
+pyodbc.IntegrityError: ('23000', "[23000] [Sybase][ODBC Driver][SQL Anywhere]No primary key value for foreign key 'case_referred' in table 'cases' (-194) (SQLExecDirectW)")
+
