@@ -10,7 +10,9 @@ syncInterval=10
 table1Name=cases
 table1pkCol=casenum
 table1modTimeCol=date_modified
+table1dontUpdate=casenum
 
 table2Name=cases
 table2pkCol=casenum
 table2modTimeCol=date_modified
+table2dontUpdate=casenum

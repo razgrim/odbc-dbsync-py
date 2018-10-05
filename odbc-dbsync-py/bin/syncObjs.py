@@ -78,7 +78,6 @@ class syncjob(object):
 
         while True:
             if(not row1 and not row2):#reached the end, quit. 
-                print("sync "+tablem.name+" complete.")
                 break
             if(row1 and row2 and row1[0]==row2[0] and row1[1]==row2[1]): #nothing to do here
                 row1=cursor1.fetchone()
@@ -119,34 +118,67 @@ class syncjob(object):
 
         self.connection1w.commit()
         self.connection2w.commit()
+        Logger.writeAndPrintLine("sync "+tablem.name+" complete.",0)
 
 
     def buildSelectQuery(self, temptable):
-        return "SELECT "+temptable.pkCol+","+temptable.modTimeCol+",* FROM "+temptable.tableName+" WHERE CASENUM>'273441' ORDER BY "+temptable.pkCol+" ASC"
+        return "SELECT "+temptable.pkCol+","+temptable.modTimeCol+",* FROM "+temptable.tableName+" WHERE CASENUM>'284000' ORDER BY "+temptable.pkCol+" ASC"
 
     def doInsert(self, sourcerow, targettable, dbnum, columns, writeconnection):
         id=sourcerow[0]
         sourcerow=sourcerow[2:]
+
+        #insert statement
         query="INSERT INTO "+targettable.tableName+"("
         for columnName in columns:
             query=query+'"'+columnName+'",'
 
+        #value statement
         query=query.rstrip(',')+") VALUES ("
-
         for rowval in sourcerow:
             if(not rowval):
                 query=query+"null,"
             else:
                 query=query+"'"+str(rowval)+"',"
-
         query=query.rstrip(',')+')'
+
+        #execute
         tempcursor=writeconnection.cursor()
         try:
             tempcursor.execute(query)
-            print("Inserted row "+str(id)+" into db"+str(dbnum)+", "+targettable.tableName)
+            Logger.writeAndPrintLine("Inserted row "+str(id)+" into db"+str(dbnum)+", "+targettable.tableName,0 )
         except Exception as e:  
             Logger.writeAndPrintLine("Could not insert row. "+str(id)+" into db"+str(dbnum)+", "+traceback.format_exc(), 3)  
-        input()
+        #input()
+
+    def doUpdate(self, sourcerow, targettable, dbnum, columns, writeconnection):
+        id=sourcerow[0]
+        sourcerow=sourcerow[2:]
+
+        #TODO update should do a pk lookup on table and update using WHERE, for compatibility. 
+
+        #insert statement
+        query="INSERT INTO "+targettable.tableName+"("
+        for columnName in columns:
+            query=query+'"'+columnName+'",'
+
+        #value statement
+        query=query.rstrip(',')+") ON EXISTING UPDATE VALUES ("
+        for rowval in sourcerow:
+            if(not rowval):
+                query=query+"null,"
+            else:
+                query=query+"'"+str(rowval)+"',"
+        query=query.rstrip(',')+')'
+
+        #execute
+        tempcursor=writeconnection.cursor()
+        try:
+            tempcursor.execute(query)
+            Logger.writeAndPrintLine("Updated row "+str(id)+" into db"+str(dbnum)+", "+targettable.tableName,0 )
+        except Exception as e:  
+            Logger.writeAndPrintLine("Could not update row. "+str(id)+" into db"+str(dbnum)+", "+traceback.format_exc(), 3)  
+        #input()
 
 class tablemap(object):
     #1 for 1->2, 2 for 1<->2
@@ -158,4 +190,5 @@ class tablemap(object):
 class table(object):
     tableName=""
     pkCol=""
-    modTimeCol="" #will be used to determine tiebreaker in direction #3
+    modTimeCol="" #will be used to determine updates.
+    dontUpdate=[] #columns NOT to update. Should contain primary keys (un-updatable things).
