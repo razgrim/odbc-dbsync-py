@@ -120,7 +120,6 @@ class syncjob(object):
                     self.doUpdate(row2, tablem.table1,1,columns,self.connection1w)
                 row1=cursor1.fetchone()
                 row2=cursor2.fetchone()
-        print("committing")
         self.connection1w.commit()
         self.connection2w.commit()
         Logger.writeAndPrintLine("sync "+tablem.name+" complete.",0)
@@ -180,7 +179,6 @@ class syncjob(object):
             Logger.writeAndPrintLine("Updated row "+str(id)+" into db"+str(dbnum)+", "+targettable.tableName,0 )
         except Exception as e:  
             Logger.writeAndPrintLine("Could not update row. "+str(id)+" into db"+str(dbnum)+", "+traceback.format_exc(), 3)  
-        #input()
 
 class tablemap(object):
     #1 for 1->2, 2 for 1<->2
@@ -193,4 +191,4 @@ class table(object):
     tableName=""
     pkCol=""
     modTimeCol="" #will be used to determine updates.
-    dontUpdate=[] #columns NOT to update. Should contain primary keys (un-updatable things).
+    dontUpdate=[] #columns NOT to update. Should contain primary keys (non-updatable things).
