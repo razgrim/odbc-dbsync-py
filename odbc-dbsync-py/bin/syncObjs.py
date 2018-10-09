@@ -3,6 +3,7 @@ import traceback
 import time
 from datetime import datetime
 from Logger import Logger
+from dateutil import parser
 
 class syncjob(object):
     """Carries variables read in from sync files, as well as sync methods."""
@@ -87,46 +88,50 @@ class syncjob(object):
             ###insert checking###
             #check for nulls
             elif(not row1):
+                print(':'+str(row2[0]))
                 if(tablem.direction==1):
                     break #if row1 is null we've reached the end of that table. we don't care about anything else in 1 way sync. 
                 else:
                     self.doInsert(row2, tablem.table1,1,columns,self.connection1w) 
                     row2=cursor2.fetchone()
             elif(not row2): 
+                print(str(row1[0])+':')
                 self.doInsert(row1, tablem.table2,2,columns,self.connection2w) 
-                row1=cursor1.fetchone()
-            
-            #check for missed indices
-            elif(row1[0]>row2[0]):
-                if(tablem.direction==1):
-                    row2=cursor2.fetchone() #1 way sync we don't care that table 1 is missing a row
-                else:
-                    self.doInsert(row2, tablem.table1,1,columns,self.connection1w)
-                    row2=cursor2.fetchone()
-            elif(row1[0]<row2[0]): 
-                self.doInsert(row1, tablem.table2,2,columns,self.connection2w)
-                row1=cursor1.fetchone()
-
-            ###update checking###
+                row1=cursor1.fetchone()        
             else:
-                #rows not equal, but indexes are. the modifieds must be different. 
-                if(not row2[1]):
-                    self.doUpdate(row1, tablem.table2,2,columns,self.connection2w)
-                elif((not row1[1]) and direction==2):
-                    self.doUpdate(row2, tablem.table1,1,columns,self.connection1w)
-                elif(row1[1]>row2[1]):
-                    self.doUpdate(row1, tablem.table2,2,columns,self.connection2w)
-                elif(tablem.direction==2): #row1 is older than row2 and 2 way sync
-                    self.doUpdate(row2, tablem.table1,1,columns,self.connection1w)
-                row1=cursor1.fetchone()
-                row2=cursor2.fetchone()
+                #check for missed indices
+                print(str(row1[0])+':'+str(row2[0]))
+                if(row1[0]>row2[0]):
+                    if(tablem.direction==1):
+                        row2=cursor2.fetchone() #1 way sync we don't care that table 1 is missing a row
+                    else:
+                        self.doInsert(row2, tablem.table1,1,columns,self.connection1w)
+                        row2=cursor2.fetchone()
+                elif(row1[0]<row2[0]): 
+                    self.doInsert(row1, tablem.table2,2,columns,self.connection2w)
+                    row1=cursor1.fetchone()
+
+                ###update checking###
+                else:
+                    #rows not equal, but indexes are. the modifieds must be different. 
+                    if(not row2[1]):
+                        self.doUpdate(row1, tablem.table2,2,columns,self.connection2w)
+                    elif((not row1[1]) and direction==2):
+                        self.doUpdate(row2, tablem.table1,1,columns,self.connection1w)
+                    elif(parser.parse(str(row1[1]))>parser.parse(str(row2[1]))):
+                        print(str(parser.parse(str(row1[1])))+'|'+str(parser.parse(str(row2[1]))))
+                        self.doUpdate(row1, tablem.table2,2,columns,self.connection2w)
+                    elif(tablem.direction==2): #row1 is older than row2 and 2 way sync
+                        self.doUpdate(row2, tablem.table1,1,columns,self.connection1w)
+                    row1=cursor1.fetchone()
+                    row2=cursor2.fetchone()
         self.connection1w.commit()
         self.connection2w.commit()
         Logger.writeAndPrintLine("sync "+tablem.name+" complete.",0)
 
 
     def buildSelectQuery(self, temptable):
-        return "SELECT "+temptable.pkCol+","+temptable.modTimeCol+",* FROM "+temptable.tableName+" WHERE CASENUM>'284000' ORDER BY "+temptable.pkCol+" ASC"
+        return "SELECT "+temptable.pkCol+", "+temptable.modTimeCol+",* FROM "+temptable.tableName+" ORDER BY "+temptable.tableName+'.'+temptable.pkCol+" ASC"
 
     def doInsert(self, sourcerow, targettable, dbnum, columns, writeconnection):
         id=sourcerow[0]
@@ -146,8 +151,6 @@ class syncjob(object):
                 query=query+"'"+str(rowval).replace("'","''")+"',"
         query=query.rstrip(',')+')'
         print(query)
-        print("awaiting input.")
-        input()
         #execute
         tempcursor=writeconnection.cursor()
         try:
