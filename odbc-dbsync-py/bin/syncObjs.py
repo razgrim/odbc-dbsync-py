@@ -74,7 +74,6 @@ class syncjob(object):
         cursor2.execute(select2)
         row1=cursor1.fetchone()
         row2=cursor2.fetchone()
-        
 
         columns = [column[0] for column in cursor1.description]
         columns = columns[len(tablem.table1.pkCol)+1:]
@@ -83,10 +82,9 @@ class syncjob(object):
         while True:
             if(not row1 and not row2):#reached the end, quit. 
                 break
-            if(row1 and row2 and row1[0]==row2[0] and row1[1]==row2[1]): #nothing to do here
+            if(row1 and row2 and row1[0:len(tablem.table1.pkCol)+1]==row2[0:len(tablem.table1.pkCol)+1]): #nothing to do here
                 row1=cursor1.fetchone()
                 row2=cursor2.fetchone()
-
             ###insert checking###
             #check for nulls
             elif(not row1):
@@ -151,8 +149,8 @@ class syncjob(object):
         return 0
 
     def doInsert(self, sourcerow, targettable, dbnum, columns, writeconnection):
+        id=str(sourcerow[:(len(targettable.pkCol)+1)])
         sourcerow=sourcerow[(len(targettable.pkCol)+1):]
-
         #insert statement
         query="INSERT INTO "+targettable.tableName+"("
         for columnName in columns:
@@ -202,10 +200,9 @@ class syncjob(object):
         tempcursor=writeconnection.cursor()
         try:
             tempcursor.execute(query)
-            Logger.writeAndPrintLine("Updated row "++" into db"+str(dbnum)+", "+targettable.tableName,0 )
+            Logger.writeAndPrintLine("Updated row "+id+" into db"+str(dbnum)+", "+targettable.tableName,0 )
         except Exception as e:  
             Logger.writeAndPrintLine("Could not update row. "+id+" into db"+str(dbnum)+", "+traceback.format_exc(), 3)  
-        input()
 
 class tablemap(object):
     #1 for 1->2, 2 for 1<->2

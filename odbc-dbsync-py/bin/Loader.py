@@ -73,6 +73,7 @@ class Loader(object):
         tempjob=syncjob()
         tempjob.connectionString1=fileparser["SYNC"]["connectionString1"]
         tempjob.connectionString2=fileparser["SYNC"]["connectionString2"]
+        tempjob.syncInterval=fileparser["SYNC"]["syncInterval"]
 
         for tableMapName in fileparser.sections():
             if(tableMapName=="SYNC"):

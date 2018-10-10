@@ -1,18 +1,31 @@
 [SYNC]
 connectionString1=dsn=needles
 connectionString2=dsn=needlesLocal
-
+syncInterval=5
 [party]
 #1 for 1->2, 2 for 1<->2
 direction=1
-syncInterval=10
 
 table1Name=party
 table1pkCol=case_id,party_id
-table1modTimeCol='1'
+table1modTimeCol='2001-01-01'
 table1dontUpdate=case_id,party_id
 
 table2Name=party
 table2pkCol=case_id,party_id
-table2modTimeCol='0'
-table2dontUpdate=case_id,party_id
+table2modTimeCol='2001-01-01'
+table2dontUpdate=case_id,party_id,party_id_location
+
+[cases]
+#1 for 1->2, 2 for 1<->2
+direction=1
+
+table1Name=cases
+table1pkCol=casenum
+table1modTimeCol=date_modified
+table1dontUpdate=casenum
+
+table2Name=cases
+table2pkCol=casenum
+table2modTimeCol=date_modified
+table2dontUpdate=casenum
