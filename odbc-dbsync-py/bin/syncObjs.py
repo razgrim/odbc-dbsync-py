@@ -68,14 +68,16 @@ class syncjob(object):
         select2=self.buildSelectQuery(tablem.table2)
         cursor1=self.connection1.cursor()
         cursor2=self.connection2.cursor()
+        print(select1)
+        print(select2)
         cursor1.execute(select1)
         cursor2.execute(select2)
-        
         row1=cursor1.fetchone()
         row2=cursor2.fetchone()
+        
 
         columns = [column[0] for column in cursor1.description]
-        columns = columns[2:]
+        columns = columns[len(tablem.table1.pkCol)+1:]
 
         Logger.writeAndPrintLine("started sync "+tablem.name+".",0)
         while True:
@@ -88,38 +90,36 @@ class syncjob(object):
             ###insert checking###
             #check for nulls
             elif(not row1):
-                print(':'+str(row2[0]))
                 if(tablem.direction==1):
                     break #if row1 is null we've reached the end of that table. we don't care about anything else in 1 way sync. 
                 else:
                     self.doInsert(row2, tablem.table1,1,columns,self.connection1w) 
                     row2=cursor2.fetchone()
             elif(not row2): 
-                print(str(row1[0])+':')
                 self.doInsert(row1, tablem.table2,2,columns,self.connection2w) 
                 row1=cursor1.fetchone()        
             else:
                 #check for missed indices
-                print(str(row1[0])+':'+str(row2[0]))
-                if(row1[0]>row2[0]):
+                indexComparison=self.doPKsMatch(row1,row2,tablem.table1)
+                if(indexComparison>0):
                     if(tablem.direction==1):
                         row2=cursor2.fetchone() #1 way sync we don't care that table 1 is missing a row
                     else:
                         self.doInsert(row2, tablem.table1,1,columns,self.connection1w)
                         row2=cursor2.fetchone()
-                elif(row1[0]<row2[0]): 
+                elif(indexComparison<0): 
                     self.doInsert(row1, tablem.table2,2,columns,self.connection2w)
                     row1=cursor1.fetchone()
 
                 ###update checking###
                 else:
                     #rows not equal, but indexes are. the modifieds must be different. 
-                    if(not row2[1]):
+                    if(not row2[len(tablem.table2.pkCol)]):
                         self.doUpdate(row1, tablem.table2,2,columns,self.connection2w)
-                    elif((not row1[1]) and direction==2):
+                    elif((not row1[len(tablem.table1.pkCol)]) and direction==2):
                         self.doUpdate(row2, tablem.table1,1,columns,self.connection1w)
-                    elif(parser.parse(str(row1[1]))>parser.parse(str(row2[1]))):
-                        print(str(parser.parse(str(row1[1])))+'|'+str(parser.parse(str(row2[1]))))
+                    elif(parser.parse(str(row1[len(tablem.table1.pkCol)]))>parser.parse(str(row2[len(tablem.table2.pkCol)]))):
+                        print(str(parser.parse(str(row1[len(tablem.table1.pkCol)])))+'|'+str(parser.parse(str(row2[len(tablem.table2.pkCol)]))))
                         self.doUpdate(row1, tablem.table2,2,columns,self.connection2w)
                     elif(tablem.direction==2): #row1 is older than row2 and 2 way sync
                         self.doUpdate(row2, tablem.table1,1,columns,self.connection1w)
@@ -131,11 +131,27 @@ class syncjob(object):
 
 
     def buildSelectQuery(self, temptable):
-        return "SELECT "+temptable.pkCol+", "+temptable.modTimeCol+",* FROM "+temptable.tableName+" ORDER BY "+temptable.tableName+'.'+temptable.pkCol+" ASC"
+        query="SELECT "
+        for pk in temptable.pkCol:
+            query=query+temptable.tableName+'.'+pk+', '
+        query=query.rstrip(",")+temptable.modTimeCol+",* FROM "+temptable.tableName+" ORDER BY "
+        for pk in temptable.pkCol:
+            query=query+temptable.tableName+'.'+pk+' ASC,'
+        query=query.rstrip(",")
+        return query
+
+    def doPKsMatch(self,row1,row2,temptable):
+        colNum=0
+        while colNum<len(temptable.pkCol):
+            if(row1[colNum]>row2[colNum]):
+                return 1
+            elif(row1[colNum]<row2[colNum]):
+                return -1
+            colNum+=1
+        return 0
 
     def doInsert(self, sourcerow, targettable, dbnum, columns, writeconnection):
-        id=sourcerow[0]
-        sourcerow=sourcerow[2:]
+        sourcerow=sourcerow[(len(targettable.pkCol)+1):]
 
         #insert statement
         query="INSERT INTO "+targettable.tableName+"("
@@ -161,8 +177,16 @@ class syncjob(object):
         #input()
 
     def doUpdate(self, sourcerow, targettable, dbnum, columns, writeconnection):
-        id=sourcerow[0]
-        sourcerow=sourcerow[2:]
+
+        whereStatement=" WHERE "
+        colNum=0
+        id=""
+        for pk in targettable.pkCol:
+            whereStatement=whereStatement+'"'+pk+'"'+"='"+str(sourcerow[colNum])+"' AND "
+            id=str(pk)+":"
+            colNum+=1
+        whereStatement=whereStatement.rstrip(" AND ")
+        sourcerow=sourcerow[(len(targettable.pkCol)+1):]
         query="UPDATE "+targettable.tableName+" SET "
         i=0
         for column in columns:
@@ -170,18 +194,18 @@ class syncjob(object):
                 if(not sourcerow[i]):
                     query=query+'"'+column+'"=null, '
                 else:
-                    query=query+'"'+column+'"='+"'"+str(sourcerow[i]).replace("'","''")+"', "
+                    query=query+'"'+column+'"='+"'"+str(sourcerow[i]).replace("'","''")+"',"
             i+=1
-        query=query.rstrip(" ").rstrip(",")
-        query=query+" WHERE "+'"'+targettable.pkCol+'"'+"='"+str(id)+"'"
-        #execute
+        query=query.rstrip(",")
+        query=query+whereStatement
         print(query)
         tempcursor=writeconnection.cursor()
         try:
             tempcursor.execute(query)
-            Logger.writeAndPrintLine("Updated row "+str(id)+" into db"+str(dbnum)+", "+targettable.tableName,0 )
+            Logger.writeAndPrintLine("Updated row "++" into db"+str(dbnum)+", "+targettable.tableName,0 )
         except Exception as e:  
-            Logger.writeAndPrintLine("Could not update row. "+str(id)+" into db"+str(dbnum)+", "+traceback.format_exc(), 3)  
+            Logger.writeAndPrintLine("Could not update row. "+id+" into db"+str(dbnum)+", "+traceback.format_exc(), 3)  
+        input()
 
 class tablemap(object):
     #1 for 1->2, 2 for 1<->2
@@ -192,6 +216,7 @@ class tablemap(object):
 
 class table(object):
     tableName=""
-    pkCol=""
+    pkCol=[]
     modTimeCol="" #will be used to determine updates.
+    modColNum=1
     dontUpdate=[] #columns NOT to update. Should contain primary keys (non-updatable things).

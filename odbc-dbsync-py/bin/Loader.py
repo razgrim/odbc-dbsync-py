@@ -79,17 +79,17 @@ class Loader(object):
                 continue
             tempTableMap=tablemap()
             tempTableMap.name=tableMapName
-            tempTableMap.direction=fileparser[tableMapName]["direction"]
+            tempTableMap.direction=int(fileparser[tableMapName]["direction"])
             tempTableMap.syncInterval=int(fileparser[tableMapName]["syncInterval"])
 
             tempTableMap.table1=table()
             tempTableMap.table1.tableName=fileparser[tableMapName]["table1Name"]
-            tempTableMap.table1.pkCol=fileparser[tableMapName]["table1pkCol"]
+            tempTableMap.table1.pkCol=str(fileparser[tableMapName]["table1pkCol"]).upper().split(',')
             tempTableMap.table1.modTimeCol=fileparser[tableMapName]["table1modTimeCol"]
             tempTableMap.table1.dontUpdate=str(fileparser[tableMapName]["table1dontUpdate"]).upper().split(',')
             tempTableMap.table2=table()
             tempTableMap.table2.tableName=fileparser[tableMapName]["table2Name"]
-            tempTableMap.table2.pkCol=fileparser[tableMapName]["table2pkCol"]
+            tempTableMap.table2.pkCol=str(fileparser[tableMapName]["table2pkCol"]).upper().split(',')
             tempTableMap.table2.modTimeCol=fileparser[tableMapName]["table2modTimeCol"]
             tempTableMap.table2.dontUpdate=str(fileparser[tableMapName]["table2dontUpdate"]).upper().split(',')
             tempjob.tableMaps.append(tempTableMap)
