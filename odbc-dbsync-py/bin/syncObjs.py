@@ -68,8 +68,6 @@ class syncjob(object):
         select2=self.buildSelectQuery(tablem.table2)
         cursor1=self.connection1.cursor()
         cursor2=self.connection2.cursor()
-        print(select1)
-        print(select2)
         cursor1.execute(select1)
         cursor2.execute(select2)
         row1=cursor1.fetchone()
@@ -117,7 +115,7 @@ class syncjob(object):
                     elif((not row1[len(tablem.table1.pkCol)]) and direction==2):
                         self.doUpdate(row2, tablem.table1,1,columns,self.connection1w)
                     elif(parser.parse(str(row1[len(tablem.table1.pkCol)]))>parser.parse(str(row2[len(tablem.table2.pkCol)]))):
-                        print(str(parser.parse(str(row1[len(tablem.table1.pkCol)])))+'|'+str(parser.parse(str(row2[len(tablem.table2.pkCol)]))))
+                        #print(str(parser.parse(str(row1[len(tablem.table1.pkCol)])))+'|'+str(parser.parse(str(row2[len(tablem.table2.pkCol)]))))
                         self.doUpdate(row1, tablem.table2,2,columns,self.connection2w)
                     elif(tablem.direction==2): #row1 is older than row2 and 2 way sync
                         self.doUpdate(row2, tablem.table1,1,columns,self.connection1w)
@@ -149,7 +147,7 @@ class syncjob(object):
         return 0
 
     def doInsert(self, sourcerow, targettable, dbnum, columns, writeconnection):
-        id=str(sourcerow[:(len(targettable.pkCol)+1)])
+        id=str(sourcerow[:(len(targettable.pkCol))])
         sourcerow=sourcerow[(len(targettable.pkCol)+1):]
         #insert statement
         query="INSERT INTO "+targettable.tableName+"("
@@ -159,12 +157,12 @@ class syncjob(object):
         #value statement
         query=query.rstrip(',')+") VALUES ("
         for rowval in sourcerow:
-            if(not rowval):
+            if(rowval==None):
                 query=query+"null,"
             else:
                 query=query+"'"+str(rowval).replace("'","''")+"',"
         query=query.rstrip(',')+')'
-        print(query)
+        #print(query)
         #execute
         tempcursor=writeconnection.cursor()
         try:
@@ -178,10 +176,9 @@ class syncjob(object):
 
         whereStatement=" WHERE "
         colNum=0
-        id=""
+        id=str(sourcerow[:(len(targettable.pkCol))])
         for pk in targettable.pkCol:
             whereStatement=whereStatement+'"'+pk+'"'+"='"+str(sourcerow[colNum])+"' AND "
-            id=str(pk)+":"
             colNum+=1
         whereStatement=whereStatement.rstrip(" AND ")
         sourcerow=sourcerow[(len(targettable.pkCol)+1):]
@@ -189,14 +186,14 @@ class syncjob(object):
         i=0
         for column in columns:
             if(column.upper() not in targettable.dontUpdate):
-                if(not sourcerow[i]):
+                if(sourcerow[i]==None):
                     query=query+'"'+column+'"=null, '
                 else:
                     query=query+'"'+column+'"='+"'"+str(sourcerow[i]).replace("'","''")+"',"
             i+=1
         query=query.rstrip(",")
         query=query+whereStatement
-        print(query)
+        #print(query)
         tempcursor=writeconnection.cursor()
         try:
             tempcursor.execute(query)
