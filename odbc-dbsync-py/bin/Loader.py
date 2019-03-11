@@ -7,6 +7,7 @@ from syncObjs import tablemap
 from syncObjs import table
 import traceback
 from threading import Thread
+import time
 
 class Loader(object):
 
@@ -60,7 +61,7 @@ class Loader(object):
                 fileparser=configparser.ConfigParser()
                 print("loading "+file)
                 fileparser.read("sync\\"+file)
-                tempSyncjob=Loader.parseSyncjob(fileparser)
+                tempSyncjob=Loader.parseSyncjob(fileparser, file)
                 if(tempSyncjob.testConnection()):
                     self.syncjobs.append(tempSyncjob)
                 else:
@@ -69,8 +70,8 @@ class Loader(object):
                 Logger.writeAndPrintLine("Error parsing configuration for "+file+": "+traceback.format_exc(),3)   
                 continue
 
-    def parseSyncjob(fileparser):
-        tempjob=syncjob()
+    def parseSyncjob(fileparser, filename):
+        tempjob=syncjob(filename)
         tempjob.connectionString1=fileparser["SYNC"]["connectionString1"]
         tempjob.connectionString2=fileparser["SYNC"]["connectionString2"]
         tempjob.syncInterval=int(fileparser["SYNC"]["syncInterval"])
@@ -97,8 +98,11 @@ class Loader(object):
         return tempjob
 
     def launchSyncjobs(self):
+        print("launching sync jobs")
         for job in self.syncjobs:
-            tempThread=Thread(target = job.run())
+            tempThread=Thread(target = job.run)
             self.syncjobThreads.append(tempThread)
+            print("launching thread for job "+job.filename)
+            
             tempThread.start()
-
+            time.sleep(5)

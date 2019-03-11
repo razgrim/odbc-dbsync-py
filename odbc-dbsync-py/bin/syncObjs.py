@@ -17,8 +17,11 @@ class syncjob(object):
     connection1w=None
     connection2w=None
 
-    def __init__(self):
-        None
+    filename=""
+
+    def __init__(self, filename):
+        self.filename=filename
+        self.tableMaps=[]#apparently without this line, tableMaps acts statically
     
     def testConnection(self):
         try:
@@ -64,6 +67,7 @@ class syncjob(object):
         self.disconnect()
 
     def runSync(self, tablem):
+        Logger.writeAndPrintLine("job "+self.filename+" started sync "+tablem.name+", table "+tablem.table1.tableName+" and "+tablem.table2.tableName,0)
         select1=self.buildSelectQuery(tablem.table1)
         select2=self.buildSelectQuery(tablem.table2)
         cursor1=self.connection1.cursor()
@@ -76,7 +80,6 @@ class syncjob(object):
         columns = [column[0] for column in cursor1.description]
         columns = columns[len(tablem.table1.pkCol)+1:]
 
-        Logger.writeAndPrintLine("started sync "+tablem.name+".",0)
         while True:
             if(not row1 and not row2):#reached the end, quit. 
                 break
@@ -187,7 +190,7 @@ class syncjob(object):
         for column in columns:
             if(column.upper() not in targettable.dontUpdate):
                 if(sourcerow[i]==None):
-                    query=query+'"'+column+'"=null, '
+                    query=query+'"'+column+'"=null,'
                 else:
                     query=query+'"'+column+'"='+"'"+str(sourcerow[i]).replace("'","''")+"',"
             i+=1
