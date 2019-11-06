@@ -62,6 +62,7 @@ class Loader(object):
                 print("loading "+file)
                 fileparser.read("sync\\"+file)
                 tempSyncjob=Loader.parseSyncjob(fileparser, file)
+                tempSyncjob.runOnce=self.runOnce
                 if(tempSyncjob.testConnection()):
                     self.syncjobs.append(tempSyncjob)
                 else:

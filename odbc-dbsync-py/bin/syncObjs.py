@@ -12,6 +12,7 @@ class syncjob(object):
     syncInterval=1
     tableMaps=[]
 
+    runOnce=False
     connection1=None
     connection2=None
     connection1w=None
@@ -57,6 +58,8 @@ class syncjob(object):
         while True:
             self.runTableSyncs()
             time.sleep(60*self.syncInterval)
+            if(self.runOnce):
+                break
 
     def runTableSyncs(self):
         if(not self.connect()):
